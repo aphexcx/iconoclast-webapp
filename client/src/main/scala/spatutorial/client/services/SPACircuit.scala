@@ -3,20 +3,20 @@ package spatutorial.client.services
 import autowire._
 import diode._
 import diode.data._
-import diode.util._
 import diode.react.ReactConnector
-import spatutorial.shared.{TodoItem, Api}
-import boopickle.Default._
+import diode.util._
+import spatutorial.shared.{Api, ImageItem}
+
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
 // Actions
 case object RefreshTodos extends Action
 
-case class UpdateAllTodos(todos: Seq[TodoItem]) extends Action
+case class UpdateAllTodos(todos: Seq[ImageItem]) extends Action
 
-case class UpdateTodo(item: TodoItem) extends Action
+case class UpdateTodo(item: ImageItem) extends Action
 
-case class DeleteTodo(item: TodoItem) extends Action
+case class DeleteTodo(item: ImageItem) extends Action
 
 case class UpdateMotd(potResult: Pot[String] = Empty) extends PotAction[String, UpdateMotd] {
   override def next(value: Pot[String]) = UpdateMotd(value)
@@ -25,8 +25,8 @@ case class UpdateMotd(potResult: Pot[String] = Empty) extends PotAction[String, 
 // The base model of our application
 case class RootModel(todos: Pot[Todos], motd: Pot[String])
 
-case class Todos(items: Seq[TodoItem]) {
-  def updated(newItem: TodoItem) = {
+case class Todos(items: Seq[ImageItem]) {
+  def updated(newItem: ImageItem) = {
     items.indexWhere(_.id == newItem.id) match {
       case -1 =>
         // add new
@@ -36,7 +36,8 @@ case class Todos(items: Seq[TodoItem]) {
         Todos(items.updated(idx, newItem))
     }
   }
-  def remove(item: TodoItem) = Todos(items.filterNot(_ == item))
+
+  def remove(item: ImageItem) = Todos(items.filterNot(_ == item))
 }
 
 /**
@@ -47,7 +48,7 @@ case class Todos(items: Seq[TodoItem]) {
 class TodoHandler[M](modelRW: ModelRW[M, Pot[Todos]]) extends ActionHandler(modelRW) {
   override def handle = {
     case RefreshTodos =>
-      effectOnly(Effect(AjaxClient[Api].getAllTodos().call().map(UpdateAllTodos)))
+      effectOnly(Effect(AjaxClient[Api].getAllImages().call().map(UpdateAllTodos)))
     case UpdateAllTodos(todos) =>
       // got new todos, update model
       updated(Ready(Todos(todos)))

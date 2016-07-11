@@ -35,7 +35,7 @@ object SPAMain extends js.JSApp {
       ).notFound(redirectToPage(DashboardLoc)(Redirect.Replace))
   }.renderWith(layout)
 
-  val todoCountWrapper = SPACircuit.connect(_.todos.map(_.items.count(!_.completed)).toOption)
+  val todoCountWrapper = SPACircuit.connect(_.todos.map(_.items.count(_.estimatedAge < 21)).toOption)
   // base layout for all pages
   def layout(c: RouterCtl[Loc], r: Resolution[Loc]) = {
     <.div(

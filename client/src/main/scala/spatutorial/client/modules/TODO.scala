@@ -1,8 +1,8 @@
 package spatutorial.client.modules
 
+import diode.data.Pot
 import diode.react.ReactPot._
 import diode.react._
-import diode.data.Pot
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.prefix_<^._
 import spatutorial.client.components.Bootstrap._
@@ -17,18 +17,18 @@ object Todo {
 
   case class Props(proxy: ModelProxy[Pot[Todos]])
 
-  case class State(selectedItem: Option[TodoItem] = None, showTodoForm: Boolean = false)
+  case class State(selectedItem: Option[ImageItem] = None, showTodoForm: Boolean = false)
 
   class Backend($: BackendScope[Props, State]) {
     def mounted(props: Props) =
       // dispatch a message to refresh the todos, which will cause TodoStore to fetch todos from the server
       Callback.when(props.proxy().isEmpty)(props.proxy.dispatch(RefreshTodos))
 
-    def editTodo(item: Option[TodoItem]) =
+    def editTodo(item: Option[ImageItem]) =
       // activate the edit dialog
       $.modState(s => s.copy(selectedItem = item, showTodoForm = true))
 
-    def todoEdited(item: TodoItem, cancelled: Boolean) = {
+    def todoEdited(item: ImageItem, cancelled: Boolean) = {
       val cb = if (cancelled) {
         // nothing to do here
         Callback.log("Todo editing cancelled")
@@ -68,9 +68,9 @@ object TodoForm {
   // shorthand for styles
   @inline private def bss = GlobalStyles.bootstrapStyles
 
-  case class Props(item: Option[TodoItem], submitHandler: (TodoItem, Boolean) => Callback)
+  case class Props(item: Option[ImageItem], submitHandler: (ImageItem, Boolean) => Callback)
 
-  case class State(item: TodoItem, cancelled: Boolean = true)
+  case class State(item: ImageItem, cancelled: Boolean = true)
 
   class Backend(t: BackendScope[Props, State]) {
     def submitForm(): Callback = {
@@ -85,7 +85,7 @@ object TodoForm {
     def updateDescription(e: ReactEventI) = {
       val text = e.target.value
       // update TodoItem content
-      t.modState(s => s.copy(item = s.item.copy(content = text)))
+      //      t.modState(s => s.copy(item = s.item.copy(estimatedAge = text)))
     }
 
     def updatePriority(e: ReactEventI) = {
@@ -95,7 +95,7 @@ object TodoForm {
         case p if p == TodoNormal.toString => TodoNormal
         case p if p == TodoLow.toString => TodoLow
       }
-      t.modState(s => s.copy(item = s.item.copy(priority = newPri)))
+      //      t.modState(s => s.copy(item = s.item.copy(priority = newPri)))
     }
 
     def render(p: Props, s: State) = {
@@ -107,26 +107,27 @@ object TodoForm {
         // footer has the OK button that submits the form before hiding it
         footer = hide => <.span(Button(Button.Props(submitForm() >> hide), "OK")),
         // this is called after the modal has been hidden (animation is completed)
-        closed = formClosed(s, p)),
-        <.div(bss.formGroup,
-          <.label(^.`for` := "description", "Description"),
-          <.input.text(bss.formControl, ^.id := "description", ^.value := s.item.content,
-            ^.placeholder := "write description", ^.onChange ==> updateDescription)),
-        <.div(bss.formGroup,
-          <.label(^.`for` := "priority", "Priority"),
-          // using defaultValue = "Normal" instead of option/selected due to React
-          <.select(bss.formControl, ^.id := "priority", ^.value := s.item.priority.toString, ^.onChange ==> updatePriority,
-            <.option(^.value := TodoHigh.toString, "High"),
-            <.option(^.value := TodoNormal.toString, "Normal"),
-            <.option(^.value := TodoLow.toString, "Low")
-          )
+        closed = formClosed(s, p))
+        //,
+        //        <.div(bss.formGroup,
+        //          <.label(^.`for` := "description", "Description"),
+        //          <.input.text(bss.formControl, ^.id := "description", ^.value := s.item.estimatedAge,
+        //            ^.placeholder := "write description", ^.onChange ==> updateDescription)),
+        //        <.div(bss.formGroup,
+        //          <.label(^.`for` := "priority", "Priority"),
+        //          // using defaultValue = "Normal" instead of option/selected due to React
+        //          <.select(bss.formControl, ^.id := "priority", ^.value := s.item.priority.toString, ^.onChange ==> updatePriority,
+        //            <.option(^.value := TodoHigh.toString, "High"),
+        //            <.option(^.value := TodoNormal.toString, "Normal"),
+        //            <.option(^.value := TodoLow.toString, "Low")
+        //          )
         )
-      )
+
     }
   }
 
   val component = ReactComponentB[Props]("TodoForm")
-    .initialState_P(p => State(p.item.getOrElse(TodoItem("", 0, "", TodoNormal, completed = false))))
+    .initialState_P(p => State(p.item.getOrElse(ImageItem("", "", 0.0))))
     .renderBackend[Backend]
     .build
 

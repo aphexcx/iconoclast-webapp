@@ -1,16 +1,15 @@
 package services
 
-import java.text.SimpleDateFormat
-import java.util.{Date, UUID}
+import java.util.UUID
 
 import spatutorial.shared._
 
 class ApiService extends Api {
-  var todos = Seq(
-    TodoItem("41424344-4546-4748-494a-4b4c4d4e4f50", 0x61626364, "Wear shirt that says “Life”. Hand out lemons on street corner.", TodoLow, completed = false),
-    TodoItem("2", 0x61626364, "Make vanilla pudding. Put in mayo jar. Eat in public.", TodoNormal, completed = false),
-    TodoItem("3", 0x61626364, "Walk away slowly from an explosion without looking back.", TodoHigh, completed = false),
-    TodoItem("4", 0x61626364, "Sneeze in front of the pope. Get blessed.", TodoNormal, completed = true)
+  var fakeImages = Seq(
+    ImageItem("578347a0d4affc770152fccc", "http://images1.backpage.com/imager/u/large/250303885/2c5d177eaa8a5683861ea9538805f574.jpg", 16.7),
+    ImageItem("578347a0d4affc770152fccc", "http://images2.backpage.com/imager/u/large/289210595/2afec41b431659a2d601727bd916968e.jpg", 14.3),
+    ImageItem("578347a0d4affc770152fccc", "http://images2.backpage.com/imager/u/large/288098987/9d243a650df5adb3022aa0a76ca860bf.jpg", 17.4),
+    ImageItem("578347a0d4affc780152fcda", "http://images3.backpage.com/imager/u/large/286655227/a2cb1298e480e2c243586439a523c15f.jpg", 10.9)
   )
 
 
@@ -20,37 +19,37 @@ class ApiService extends Api {
     s"Welcome to Iconoclast! There are $images scraped photos in the system, of which $analyzed have been analyzed."
   }
 
-  override def getAllTodos(): Seq[TodoItem] = {
-    // provide some fake Todos
+  override def getAllImages(): Seq[ImageItem] = {
+    // provide some fake Images
     Thread.sleep(300)
-    println(s"Sending ${todos.size} Todo items")
-    todos
+    println(s"Sending ${fakeImages.size} Image items")
+    fakeImages
   }
 
-  // update a Todo
-  override def updateTodo(item: TodoItem): Seq[TodoItem] = {
+  // update a Image
+  override def updateTodo(item: ImageItem): Seq[ImageItem] = {
     // TODO, update database etc :)
-    if(todos.exists(_.id == item.id)) {
-      todos = todos.collect {
+    if (fakeImages.exists(_.id == item.id)) {
+      fakeImages = fakeImages.collect {
         case i if i.id == item.id => item
         case i => i
       }
-      println(s"Todo item was updated: $item")
+      println(s"Image item was updated: $item")
     } else {
       // add a new item
       val newItem = item.copy(id = UUID.randomUUID().toString)
-      todos :+= newItem
-      println(s"Todo item was added: $newItem")
+      fakeImages :+= newItem
+      println(s"Image item was added: $newItem")
     }
     Thread.sleep(300)
-    todos
+    fakeImages
   }
 
-  // delete a Todo
-  override def deleteTodo(itemId: String): Seq[TodoItem] = {
+  // delete a Image
+  override def deleteTodo(itemId: String): Seq[ImageItem] = {
     println(s"Deleting item with id = $itemId")
     Thread.sleep(300)
-    todos = todos.filterNot(_.id == itemId)
-    todos
+    fakeImages = fakeImages.filterNot(_.id == itemId)
+    fakeImages
   }
 }

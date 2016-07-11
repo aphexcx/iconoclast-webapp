@@ -5,11 +5,11 @@ trait Api {
   def welcomeMsg(name: String): String
 
   // get Todo items
-  def getAllTodos(): Seq[TodoItem]
+  def getAllImages(): Seq[ImageItem]
 
   // update a Todo
-  def updateTodo(item: TodoItem): Seq[TodoItem]
+  def updateTodo(item: ImageItem): Seq[ImageItem]
 
   // delete a Todo
-  def deleteTodo(itemId: String): Seq[TodoItem]
+  def deleteTodo(itemId: String): Seq[ImageItem]
 }
