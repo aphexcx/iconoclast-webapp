@@ -42,7 +42,7 @@ object SPAMain extends js.JSApp {
       // here we use plain Bootstrap class names as these are specific to the top level layout defined here
       <.nav(^.className := "navbar navbar-inverse navbar-fixed-top",
         <.div(^.className := "container",
-          <.div(^.className := "navbar-header", <.span(^.className := "navbar-brand", "SPA Tutorial")),
+          <.div(^.className := "navbar-header", <.span(^.className := "navbar-brand", "iconoclast")),
           <.div(^.className := "collapse navbar-collapse",
             // connect menu to model, because it needs to update when the number of open todos changes
             todoCountWrapper(proxy => MainMenu(c, r.page, proxy))

@@ -19,11 +19,11 @@ object Dashboard {
 
   // create dummy data for the chart
   val cp = Chart.ChartProps(
-    "Test chart",
+    "Estimated Age Distribution",
     Chart.BarChart,
     ChartData(
-      Random.alphanumeric.map(_.toUpper.toString).distinct.take(10),
-      Seq(ChartDataset(Iterator.continually(Random.nextDouble() * 10).take(10).toSeq, "Data1"))
+      (1 to 30) map (_.toString),
+      Seq(ChartDataset(Iterator.continually(Random.nextDouble() * 10).take(10).toSeq, "Images"))
     )
   )
 

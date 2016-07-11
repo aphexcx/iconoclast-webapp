@@ -1,6 +1,7 @@
 package services
 
-import java.util.{UUID, Date}
+import java.text.SimpleDateFormat
+import java.util.{Date, UUID}
 
 import spatutorial.shared._
 
@@ -12,8 +13,12 @@ class ApiService extends Api {
     TodoItem("4", 0x61626364, "Sneeze in front of the pope. Get blessed.", TodoNormal, completed = true)
   )
 
-  override def welcomeMsg(name: String): String =
-    s"Welcome to SPA, $name! Time is now ${new Date}"
+
+  override def welcomeMsg(name: String): String = {
+    val images = 100
+    val analyzed = 28
+    s"Welcome to Iconoclast! There are $images scraped photos in the system, of which $analyzed have been analyzed."
+  }
 
   override def getAllTodos(): Seq[TodoItem] = {
     // provide some fake Todos
