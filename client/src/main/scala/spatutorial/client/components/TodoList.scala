@@ -11,14 +11,14 @@ object TodoList {
   // shorthand for styles
   @inline private def bss = GlobalStyles.bootstrapStyles
 
-  case class TodoListProps(
+  case class ImageListProps(
                             items: Seq[ImageItem],
                             stateChange: ImageItem => Callback,
                             editItem: ImageItem => Callback,
                             deleteItem: ImageItem => Callback
   )
 
-  private val ImageList = ReactComponentB[TodoListProps]("ImageList")
+  private val ImageList = ReactComponentB[ImageListProps]("ImageList")
     .render_P(p => {
       val style = bss.listGroup
       def renderItem(item: ImageItem) = {
@@ -42,5 +42,5 @@ object TodoList {
     .build
 
   def apply(items: Seq[ImageItem], stateChange: ImageItem => Callback, editItem: ImageItem => Callback, deleteItem: ImageItem => Callback) =
-    ImageList(TodoListProps(items, stateChange, editItem, deleteItem))
+    ImageList(ImageListProps(items, stateChange, editItem, deleteItem))
 }

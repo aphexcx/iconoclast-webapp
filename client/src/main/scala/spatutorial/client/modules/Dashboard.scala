@@ -8,8 +8,8 @@ import japgolly.scalajs.react.vdom.prefix_<^._
 import spatutorial.client.SPAMain.{Loc, TodoLoc}
 import spatutorial.client.components._
 
-import scala.util.Random
 import scala.language.existentials
+import scala.util.Random
 
 object Dashboard {
 
@@ -22,8 +22,8 @@ object Dashboard {
     "Estimated Age Distribution",
     Chart.BarChart,
     ChartData(
-      (1 to 30) map (_.toString),
-      Seq(ChartDataset(Iterator.continually(Random.nextDouble() * 10).take(10).toSeq, "Images"))
+      (7 to 30) map (_.toString),
+      Seq(ChartDataset(Iterator.continually(Random.nextDouble() * 80).take(24).toSeq, "Images / Age Distribution"))
     )
   )
 
@@ -38,7 +38,7 @@ object Dashboard {
         state.motdWrapper(Motd(_)),
         Chart(cp),
         // create a link to the To Do view
-        <.div(props.router.link(TodoLoc)("Check your todos!"))
+        <.div(props.router.link(TodoLoc)("Review analyzed images >>"))
       )
     }
     .build

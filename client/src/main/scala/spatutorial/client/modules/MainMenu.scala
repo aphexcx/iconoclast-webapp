@@ -24,7 +24,7 @@ object MainMenu {
   private def buildTodoMenu(props: Props): ReactElement = {
     val todoCount = props.proxy().getOrElse(0)
     <.span(
-      <.span("Todo "),
+      <.span("Underage Images "),
       todoCount > 0 ?= <.span(bss.labelOpt(CommonStyle.danger), bss.labelAsBadge, todoCount)
     )
   }

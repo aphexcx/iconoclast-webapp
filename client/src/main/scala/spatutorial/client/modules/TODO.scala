@@ -41,7 +41,7 @@ object Todo {
     }
 
     def render(p: Props, s: State) =
-      Panel(Panel.Props("What needs to be done"), <.div(
+      Panel(Panel.Props("Images from Backpage that appear to be underage. Click the image to go to the listing. Press Delete to remove irrelevant images from the system."), <.div(
         p.proxy().renderFailed(ex => "Error loading"),
         p.proxy().renderPending(_ > 500, _ => "Loading..."),
         p.proxy().render(todos => TodoList(todos.items, item => p.proxy.dispatch(UpdateTodo(item)),
