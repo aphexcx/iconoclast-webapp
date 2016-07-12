@@ -29,11 +29,11 @@ object ImageList {
           case a if a < 16 => style.itemOpt(CommonStyle.danger)
         }
         <.li(itemStyle,
-          //          <.input.checkbox(^.checked := item.completed, ^.onChange --> p.stateChange(item.copy(completed = !item.completed))),
+          //                    <.input.checkbox(^.checked := item.completed, ^.onChange --> p.stateChange(item.copy(completed = !item.completed))),
           <.h1(item.estimatedAge),
-          <.img(^.src := item.url, ^.width := 500),
+          <.img(^.src := item.url, ^.width := 200),
           <.span(" "),
-          Button(Button.Props(p.editItem(item), addStyles = Seq(bss.pullRight, bss.buttonXS)), "Edit"),
+          //          Button(Button.Props(p.editItem(item), addStyles = Seq(bss.pullRight, bss.buttonXS)), "Edit"),
           Button(Button.Props(p.deleteItem(item), addStyles = Seq(bss.pullRight, bss.buttonXS)), "Delete")
         )
       }
