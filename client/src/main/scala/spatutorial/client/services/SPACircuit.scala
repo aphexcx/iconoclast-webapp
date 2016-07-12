@@ -1,6 +1,6 @@
 package spatutorial.client.services
-
 import autowire._
+import boopickle.Default._
 import diode._
 import diode.data._
 import diode.react.ReactConnector
