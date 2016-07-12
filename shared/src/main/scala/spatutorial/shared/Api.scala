@@ -4,7 +4,7 @@ import scala.concurrent.Future
 
 trait Api {
   // message of the day
-  def welcomeMsg(name: String): String
+  def welcomeMsg(name: String): Future[String]
 
   // get Todo items
   def getAllImages(): Future[Seq[ImageItem]]

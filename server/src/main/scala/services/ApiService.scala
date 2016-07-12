@@ -16,10 +16,9 @@ class ApiService extends Api {
   )
 
 
-  override def welcomeMsg(name: String): String = {
-    val images = 2988
-    val analyzed = 1367
-    s"Welcome to Iconoclast! There are $images scraped photos in the system, of which $analyzed have been analyzed."
+  override def welcomeMsg(name: String): Future[String] = {
+    Api.getImageStats map (s =>
+      s"Welcome to Iconoclast! There are ${s.totalCount} scraped photos in the system, of which ${s.analyzedCount} have been analyzed.")
   }
 
   override def getAllImages(): Future[Seq[ImageItem]] = {
@@ -27,7 +26,7 @@ class ApiService extends Api {
     //    Thread.sleep(300)
     //    println(s"Sending ${fakeImages.size} services.Image items")
     //    fakeImages
-    Api.getUnderageImages.map(l => l.map(i => ImageItem(i._id.$oid, i.url, i.estimatedAge)))
+    Api.getUnderageImages map (l => l.map(i => ImageItem(i._id.$oid, i.url, i.estimatedAge)))
   }
 
   // update a services.Image

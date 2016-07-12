@@ -5,6 +5,7 @@ import services.ImageJsonProtocol._
 import spray.client.pipelining._
 import spray.http._
 import spray.httpx.SprayJsonSupport._
+import spray.json.{JsonFormat, _}
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -44,4 +45,7 @@ object Api {
     )
 
   def getUnderageImages: Future[List[Image]] = pipelineToImage(Get(s"$apiLocation/image/underage"))
+
+  def getImageStats: Future[ImageStats] = pipeline(Get(s"$apiLocation/image/stats")).map(response =>
+    implicitly[JsonFormat[ImageStats]].read(response.entity.asString.parseJson))
 }
