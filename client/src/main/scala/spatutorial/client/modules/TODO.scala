@@ -44,7 +44,7 @@ object Todo {
       Panel(Panel.Props("Images from Backpage that appear to be underage. Click the image to go to the listing. Press Delete to remove irrelevant images from the system."), <.div(
         p.proxy().renderFailed(ex => "Error loading"),
         p.proxy().renderPending(_ > 500, _ => "Loading..."),
-        p.proxy().render(todos => TodoList(todos.items, item => p.proxy.dispatch(UpdateTodo(item)),
+        p.proxy().render(todos => ImageList(todos.items, item => p.proxy.dispatch(UpdateTodo(item)),
           item => editTodo(Some(item)), item => p.proxy.dispatch(DeleteTodo(item)))),
         Button(Button.Props(editTodo(None)), Icon.plusSquare, " New")),
         // if the dialog is open, add it to the panel

@@ -7,7 +7,7 @@ import spatutorial.shared._
 
 import scalacss.ScalaCssReact._
 
-object TodoList {
+object ImageList {
   // shorthand for styles
   @inline private def bss = GlobalStyles.bootstrapStyles
 
