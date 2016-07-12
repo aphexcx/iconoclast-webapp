@@ -1,17 +1,16 @@
 package spatutorial.shared
 
 import scala.concurrent.Future
-
 trait Api {
   // message of the day
   def welcomeMsg(name: String): Future[String]
 
   // get Todo items
-  def getAllImages(): Future[Seq[ImageItem]]
+  def getAllImages(): Future[Seq[Image]]
 
   // update a Todo
-  def updateTodo(item: ImageItem): Seq[ImageItem]
+  def updateImage(item: Image): Seq[Image]
 
   // delete a Todo
-  def deleteTodo(itemId: String): Seq[ImageItem]
+  def deleteImage(itemId: String): Seq[Image]
 }

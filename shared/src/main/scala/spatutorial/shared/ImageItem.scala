@@ -10,7 +10,7 @@ case object TodoNormal extends TodoPriority
 
 case object TodoHigh extends TodoPriority
 
-case class ImageItem(id: String, url: String, estimatedAge: Double)
+//case class ImageItem(id: String, url: String, estimatedAge: Double)
 
 //TODO: add Ad/ AdID?
 

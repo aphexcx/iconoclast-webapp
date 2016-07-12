@@ -46,7 +46,9 @@ object Settings {
     */
   val sharedDependencies = Def.setting(Seq(
     "com.lihaoyi" %%% "autowire" % versions.autowire,
-    "me.chrons" %%% "boopickle" % versions.booPickle
+    "me.chrons" %%% "boopickle" % versions.booPickle,
+    "io.spray" %% "spray-json" % "1.3.2"
+
   ))
 
   /** Dependencies only used by the JVM project */
@@ -60,8 +62,7 @@ object Settings {
     "io.spray" %% "spray-can" % "1.3.3",
     "io.spray" %% "spray-http" % "1.3.3",
     "io.spray" %% "spray-httpx" % "1.3.3",
-    "io.spray" %% "spray-util" % "1.3.3",
-    "io.spray" %% "spray-json" % "1.3.2"
+    "io.spray" %% "spray-util" % "1.3.3"
   ))
 
   /** Dependencies only used by the JS project (note the use of %%% instead of %%) */

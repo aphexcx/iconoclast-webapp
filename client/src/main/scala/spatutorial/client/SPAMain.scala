@@ -28,14 +28,14 @@ object SPAMain extends js.JSApp {
   val routerConfig = RouterConfigDsl[Loc].buildConfig { dsl =>
     import dsl._
 
-    val todoWrapper = SPACircuit.connect(_.todos)
+    val todoWrapper = SPACircuit.connect(_.images)
     // wrap/connect components to the circuit
     (staticRoute(root, DashboardLoc) ~> renderR(ctl => SPACircuit.wrap(_.motd)(proxy => Dashboard(ctl, proxy)))
       | staticRoute("#todo", TodoLoc) ~> renderR(ctl => todoWrapper(Todo(_)))
       ).notFound(redirectToPage(DashboardLoc)(Redirect.Replace))
   }.renderWith(layout)
 
-  val todoCountWrapper = SPACircuit.connect(_.todos.map(_.items.count(_.estimatedAge < 21)).toOption)
+  val todoCountWrapper = SPACircuit.connect(_.images.map(_.items.count(_.estimatedAge < 21)).toOption)
   // base layout for all pages
   def layout(c: RouterCtl[Loc], r: Resolution[Loc]) = {
     <.div(

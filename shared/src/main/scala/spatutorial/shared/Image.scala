@@ -1,8 +1,10 @@
-package services
+package spatutorial.shared
 
 import spray.json.DefaultJsonProtocol
 
-case class Image(_id: MongoObjectId, url: String, estimatedAge: Double, adId: MongoObjectId)
+case class Image(_id: MongoObjectId, url: String, estimatedAge: Double, adId: MongoObjectId) {
+  def id = _id.$oid
+}
 
 case class ImageStats(analyzedCount: Int, totalCount: Int)
 

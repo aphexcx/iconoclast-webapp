@@ -1,7 +1,8 @@
 package services
 
 import akka.actor.ActorSystem
-import services.ImageJsonProtocol._
+import spatutorial.shared.ImageJsonProtocol._
+import spatutorial.shared.{Image, ImageStats}
 import spray.client.pipelining._
 import spray.http._
 import spray.httpx.SprayJsonSupport._

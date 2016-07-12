@@ -12,16 +12,16 @@ object ImageList {
   @inline private def bss = GlobalStyles.bootstrapStyles
 
   case class ImageListProps(
-                            items: Seq[ImageItem],
-                            stateChange: ImageItem => Callback,
-                            editItem: ImageItem => Callback,
-                            deleteItem: ImageItem => Callback
-  )
+                             items: Seq[Image],
+                             stateChange: Image => Callback,
+                             editItem: Image => Callback,
+                             deleteItem: Image => Callback
+                           )
 
   private val ImageList = ReactComponentB[ImageListProps]("ImageList")
     .render_P(p => {
       val style = bss.listGroup
-      def renderItem(item: ImageItem) = {
+      def renderItem(item: Image) = {
         // convert priority into Bootstrap style
         val itemStyle = item.estimatedAge match {
           case a if a >= 16 => style.itemOpt(CommonStyle.info)
@@ -31,8 +31,10 @@ object ImageList {
         <.li(itemStyle,
           //                    <.input.checkbox(^.checked := item.completed, ^.onChange --> p.stateChange(item.copy(completed = !item.completed))),
           <.h1(item.estimatedAge),
-          <.img(^.src := item.url, ^.width := 200),
-          <.span(" "),
+          <.a(^.href := item.url,
+            <.img(^.src := item.url, ^.width := 200)
+          ),
+          <.div(" "),
           //          Button(Button.Props(p.editItem(item), addStyles = Seq(bss.pullRight, bss.buttonXS)), "Edit"),
           Button(Button.Props(p.deleteItem(item), addStyles = Seq(bss.pullRight, bss.buttonXS)), "Delete")
         )
@@ -41,6 +43,6 @@ object ImageList {
     })
     .build
 
-  def apply(items: Seq[ImageItem], stateChange: ImageItem => Callback, editItem: ImageItem => Callback, deleteItem: ImageItem => Callback) =
+  def apply(items: Seq[Image], stateChange: Image => Callback, editItem: Image => Callback, deleteItem: Image => Callback) =
     ImageList(ImageListProps(items, stateChange, editItem, deleteItem))
 }

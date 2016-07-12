@@ -15,26 +15,26 @@ import scalacss.ScalaCssReact._
 
 object Todo {
 
-  case class Props(proxy: ModelProxy[Pot[Todos]])
+  case class Props(proxy: ModelProxy[Pot[Images]])
 
-  case class State(selectedItem: Option[ImageItem] = None, showTodoForm: Boolean = false)
+  case class State(selectedItem: Option[Image] = None, showTodoForm: Boolean = false)
 
   class Backend($: BackendScope[Props, State]) {
     def mounted(props: Props) =
       // dispatch a message to refresh the todos, which will cause TodoStore to fetch todos from the server
-      Callback.when(props.proxy().isEmpty)(props.proxy.dispatch(RefreshTodos))
+      Callback.when(props.proxy().isEmpty)(props.proxy.dispatch(RefreshImages))
 
-    def editTodo(item: Option[ImageItem]) =
+    def editTodo(item: Option[Image]) =
       // activate the edit dialog
       $.modState(s => s.copy(selectedItem = item, showTodoForm = true))
 
-    def todoEdited(item: ImageItem, cancelled: Boolean) = {
+    def todoEdited(item: Image, cancelled: Boolean) = {
       val cb = if (cancelled) {
         // nothing to do here
         Callback.log("Todo editing cancelled")
       } else {
         Callback.log(s"Todo edited: $item") >>
-          $.props >>= (_.proxy.dispatch(UpdateTodo(item)))
+          $.props >>= (_.proxy.dispatch(UpdateImage(item)))
       }
       // hide the edit dialog, chain callbacks
       cb >> $.modState(s => s.copy(showTodoForm = false))
@@ -44,8 +44,8 @@ object Todo {
       Panel(Panel.Props("Images from Backpage that appear to be underage. Click the image to go to the listing. Press Delete to remove irrelevant images from the system."), <.div(
         p.proxy().renderFailed(ex => "Error loading"),
         p.proxy().renderPending(_ > 500, _ => "Loading..."),
-        p.proxy().render(todos => ImageList(todos.items, item => p.proxy.dispatch(UpdateTodo(item)),
-          item => editTodo(Some(item)), item => p.proxy.dispatch(DeleteTodo(item)))),
+        p.proxy().render(todos => ImageList(todos.items, item => p.proxy.dispatch(UpdateImage(item)),
+          item => editTodo(Some(item)), item => p.proxy.dispatch(DeleteImage(item)))),
         Button(Button.Props(editTodo(None)), Icon.plusSquare, " New")),
         // if the dialog is open, add it to the panel
         if (s.showTodoForm) TodoForm(TodoForm.Props(s.selectedItem, todoEdited))
@@ -61,16 +61,16 @@ object Todo {
     .build
 
   /** Returns a function compatible with router location system while using our own props */
-  def apply(proxy: ModelProxy[Pot[Todos]]) = component(Props(proxy))
+  def apply(proxy: ModelProxy[Pot[Images]]) = component(Props(proxy))
 }
 
 object TodoForm {
   // shorthand for styles
   @inline private def bss = GlobalStyles.bootstrapStyles
 
-  case class Props(item: Option[ImageItem], submitHandler: (ImageItem, Boolean) => Callback)
+  case class Props(item: Option[Image], submitHandler: (Image, Boolean) => Callback)
 
-  case class State(item: ImageItem, cancelled: Boolean = true)
+  case class State(item: Image, cancelled: Boolean = true)
 
   class Backend(t: BackendScope[Props, State]) {
     def submitForm(): Callback = {
@@ -127,7 +127,7 @@ object TodoForm {
   }
 
   val component = ReactComponentB[Props]("TodoForm")
-    .initialState_P(p => State(p.item.getOrElse(ImageItem("", "", 0.0))))
+    .initialState_P(p => State(p.item.getOrElse(Image(MongoObjectId(""), "", 0.0, MongoObjectId("")))))
     .renderBackend[Backend]
     .build
 
